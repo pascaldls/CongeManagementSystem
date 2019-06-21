@@ -16,8 +16,8 @@ class CreateCongesTable extends Migration
         Schema::create('conges', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('employee_id');
-            $table->timestamp('debut');
-            $table->timestamp('fin');
+            $table->date('debut');
+            $table->date('fin');
             $table->string('statut');
             $table->longText('Commentaire');
             $table->timestamps();

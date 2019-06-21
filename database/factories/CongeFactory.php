@@ -9,8 +9,8 @@ $factory->define(Conge::class, function (Faker $faker, $attributes ) {
 
     return [
         'employee_id' => $attributes['employee_id'],
-        'debut' => '',
-        'fin' => '',
+        'debut' => now()->addDay(rand(0, 20)),
+        'fin' => now()->addDay(rand(20, 30)),
         'statut' => $attributes['statut'] ?? [
             'demande en attente',
             'congé approuvé',

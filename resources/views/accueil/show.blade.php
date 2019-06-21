@@ -5,44 +5,17 @@
 
 <h1> Accueil </h1>
 
+    <h3> Conge </h3>
     <table class="table table-striped table-bordered table-hover">
-
         <tbody>
 
+            @foreach ($conges as $conges)
             <tr>
-                foreach ($ids as $id) {
-
-                    echo '<td>'.$id.'</td>';
-
-                }
+            <td> {{}}</td>
             </tr>
-
-            <tr>
-                foreach ($employeee as $employee) {
-
-                    echo '<td>'.$employee.'</td>';
-
-                }
-            </tr>
-
-            <tr>
-                foreach ($employeess as $employees) {
-
-                    echo '<td>'.$employees.'</td>';
-
-                }
-            </tr>
-
-            <tr>
-                foreach ($congees as $conges) {
-
-                    echo '<td>'.$conges.'</td>';
-
-                }
-            </tr>
-
+            @endforeach
         </tbody>
-
     </table>
 @endsection
 
+'employee', 'conges', 'employeesApprouve', 'employeesAttente'

@@ -31,8 +31,8 @@ class DemandeCongeTest extends TestCase
 
         $employee = factory( Employee::class )->create( ) ;
 
-        $debut = '05-12-2019' ;
-        $fin = '06-12-2019' ;
+        $debut = '2019-12-05' ;
+        $fin = '2019-12-09' ;
 
         // $this->withoutExceptionHandling();
         $response = $this->post( '/conge', [
@@ -55,15 +55,15 @@ class DemandeCongeTest extends TestCase
         $conge = Conge::first();
 
         $this->assertEquals($employee->id, $conge->employee->id );
-        $this->assertEquals( $debut, $conge->debut );
-        $this->assertEquals( $fin, $conge->fin );
+        $this->assertEquals( $debut, $conge->debut->format('Y-m-d') );
+        $this->assertEquals( $fin, $conge->fin->format('Y-m-d') );
     }
 
     public function testPostDemandeDeCongeInvalid ()
     {
         $employee = factory( Employee::class )->create( ) ;
-        $debut = '05-12-2019' ;
-        $fin = '06-12-2019' ;
+        $debut = '2019-12-05' ;
+        $fin = '2019-12-09' ;
 
         // $this->withoutExceptionHandling();
         $response = $this->post( '/conge', [
