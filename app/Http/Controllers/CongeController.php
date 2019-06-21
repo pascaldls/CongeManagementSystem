@@ -14,8 +14,7 @@ class CongeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-    }
+    { }
 
     /**
      * Show the form for creating a new resource.
@@ -23,7 +22,7 @@ class CongeController extends Controller
      * @param  employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function create( Employee $employee )
+    public function create(Employee $employee)
     {
         return view('conge.create');
     }
@@ -36,7 +35,7 @@ class CongeController extends Controller
                 'debut' => 'required',
                 'fin' => 'required',
                 'statut' => 'required',
-                'Commentaire' => 'required'
+                'commentaire' => 'required'
             ]
         );
     }
@@ -49,11 +48,11 @@ class CongeController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $this->validateRequest() ;
+        $data = $this->validateRequest();
 
-        Conge::create( $data ) ;
+        Conge::create($data);
 
-        return redirect('/'.$data['employee_id'] )
+        return redirect('/' . $data['employee_id'])
             ->with('success', 'Conge a ete deposer');
     }
 

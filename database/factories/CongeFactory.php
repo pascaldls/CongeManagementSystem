@@ -5,7 +5,7 @@
 use App\Conge;
 use Faker\Generator as Faker;
 
-$factory->define(Conge::class, function (Faker $faker, $attributes ) {
+$factory->define(Conge::class, function (Faker $faker, $attributes) {
 
     return [
         'employee_id' => $attributes['employee_id'],
@@ -15,7 +15,7 @@ $factory->define(Conge::class, function (Faker $faker, $attributes ) {
             'demande en attente',
             'congé approuvé',
             'congé refusé',
-        ][ rand(0, 2) ],
-        'Commentaire' =>  $faker->text() ,
+        ][rand(0, 2)],
+        'commentaire' =>  $faker->text(),
     ];
 });

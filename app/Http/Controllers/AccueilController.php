@@ -24,23 +24,19 @@ class AccueilController extends Controller
      * @param  employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function show( employee $employee)
+    public function show(employee $employee)
     {
         // $employee = Employee::find( $id ) ;
 
-        $conges = Conge::where( 'employee_id', $employee->id )->get() ;
+        $conges = Conge::where('employee_id', $employee->id)->get();
 
-        $employeesApprouve = null ;
-        $employeesAttente = null ;
-        if ( $employee->statut == 1 ) {
-            $employeesAttente = Employee::whereHas( 'conges', function ($query){
-                $query->where( 'statut', 'demande en attente') ;
-            })->get() ;
-            $employeesApprouve = Employee::whereHas( 'conges', function ($query){
-                $query->where( 'statut', 'congé approuvé') ;
-            })->get() ; ;
+        $employees = null;
+        $employeesAttente = null;
+        if ($employee->statut == 1) {
+            $employeesAttente = Conge::where('statut', 'demande en attente')->get();
+            $employees = Employee::all();
         }
 
-        return view('accueil.show')->with( compact( 'employee', 'conges', 'employeesApprouve', 'employeesAttente'  ) );
+        return view('accueil.show')->with(compact('employee', 'conges', 'employees', 'employeesAttente'));
     }
 }

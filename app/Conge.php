@@ -24,7 +24,7 @@ class Conge extends Model
      */
     public function setDebut(string $debut)
     {
-        die( $debut ) ;
+        die($debut);
         $this->attributes['debut'] = Carbon::parse($debut);
     }
     /**

@@ -19,7 +19,7 @@ class CreateCongesTable extends Migration
             $table->date('debut');
             $table->date('fin');
             $table->string('statut');
-            $table->longText('Commentaire');
+            $table->longText('commentaire');
             $table->timestamps();
         });
 
