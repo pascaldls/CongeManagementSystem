@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Conge;
 use Illuminate\Http\Request;
 use App\Employee;
+use Illuminate\Validation\Validator;
 
 class CongeController extends Controller
 {
@@ -24,18 +25,24 @@ class CongeController extends Controller
      */
     public function create(Employee $employee)
     {
-        return view('conge.create');
+        return view('conge.create', compact('employee'));
     }
 
     public function validateRequest()
     {
-        return request()->validate(
+        return  request()->validate(
             [
                 'employee_id' => 'required',
                 'debut' => 'required',
                 'fin' => 'required',
-                'statut' => 'required',
                 'commentaire' => 'required'
+            ],
+            [],
+            [
+                'employee_id' => 'employe',
+                'debut' => 'date debut',
+                'fin' => 'date fin',
+                'commentaire' => 'commentaire'
             ]
         );
     }
@@ -48,12 +55,12 @@ class CongeController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $this->validateRequest();
+        $data = array_merge($this->validateRequest(), ['statut' => 'demande en attente']);
 
         Conge::create($data);
 
         return redirect('/' . $data['employee_id'])
-            ->with('success', 'Conge a ete deposer');
+            ->with('success', 'Votre congé a bien été déposé');
     }
 
     /**

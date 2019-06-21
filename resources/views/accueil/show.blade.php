@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section( 'title', 'Accueil ') ;
+@section( 'title', 'Accueil ')
 @section('content')
 
-<h1> Accueil </h1>
+<h1> Bienvenue </h1>
 <h2> {{$employee->nom}} : {{$employee->statut == 0 ? 'Employee' : 'Admin' }} </h2>
 
 @if( ! is_null($conges)> 0)
-<h3> Mes conge </h3>
+<h3> Mes conge <a href="/conge/{{$employee->id}}" class="btn btn-primary float-right">Demande de conge</a> </h3>
 <table class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
@@ -68,8 +68,10 @@
     <tbody>
         @foreach ($employees as $em)
         <tr>
-            <td> {{$em->nom}}</td>
-            <td> {{$em->statut == 0 ? 'Employee' : 'Admin' }} </td>
+            <a href="">
+                <td> {{$em->nom}}</td>
+                <td> {{$em->statut == 0 ? 'Employee' : 'Admin' }} </td>
+            </a>
         </tr>
         @endforeach
     </tbody>

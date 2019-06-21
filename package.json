@@ -25,6 +25,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
-        "@lassehaslev/executor": "^1.0.1"
+        "@lassehaslev/executor": "^1.0.1",
+        "vuejs-datepicker": "^1.5.4"
     }
 }
