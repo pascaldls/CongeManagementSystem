@@ -15,4 +15,3 @@
     {{ session('error') }}
 </div>
 @endif
-DB_DATABASE

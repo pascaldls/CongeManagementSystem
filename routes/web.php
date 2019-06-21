@@ -18,4 +18,4 @@ Route::get('/home', 'UserController@index')->name('home');
 ##controllers
 
 
-## Route::resource('/',  'AccueilController');
+Route::resource('/',  'AccueilController');
