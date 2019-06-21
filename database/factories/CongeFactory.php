@@ -5,10 +5,10 @@
 use App\Conge;
 use Faker\Generator as Faker;
 
-$factory->define(Conge::class, function (Faker $faker, $attribute ) {
+$factory->define(Conge::class, function (Faker $faker, $attributes ) {
 
     return [
-        'employee_id' => $attribute['employee_id'],
+        'employee_id' => $attributes['employee_id'],
         'debut' => '',
         'fin' => '',
         'statut' => [
