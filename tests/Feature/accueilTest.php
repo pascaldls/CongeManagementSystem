@@ -89,7 +89,6 @@ class AccueilTest extends TestCase
         $this->assertNotNull($content['employees']);
         $this->assertNotNull($content['employeesAttente']);
 
-        var_dump(count($content['employeesAttente']));
         $this->assertCount(7, $content['employeesAttente']);
     }
 }

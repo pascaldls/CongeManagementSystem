@@ -18,9 +18,12 @@ Route::get('/home', 'UserController@index')->name('home');
 ##controllers
 
 
-Route::resource('/',  'AccueilController') ;
+Route::resource('/',  'AccueilController');
 
 Route::get('/{employee}',  'AccueilController@show');
 
 Route::get('/conge/{employee}',  'CongeController@create');
+Route::get('/conge/{statut}/{conge}',  'CongeController@update');
+Route::get('/conge/{employee}',  'CongeController@create');
+
 Route::post('/conge',  'CongeController@store');

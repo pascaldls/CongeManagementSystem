@@ -40,7 +40,7 @@ class CongeController extends Controller
             [],
             [
                 'employee_id' => 'employe',
-                'debut' => 'date debut',
+                'debut' => 'date début',
                 'fin' => 'date fin',
                 'commentaire' => 'commentaire'
             ]
@@ -89,12 +89,31 @@ class CongeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param  String $action
      * @param  \App\Conge  $conge
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Conge $conge)
+    public function update(Request $request, $action, Conge $conge)
     {
-        //
+        $statut = '';
+        $approve = 1;
+        switch ($action) {
+            case 'approver':
+                $statut  = 'congé approuvé';
+                $approve = 1;
+                break;
+            case 'refuser':
+                $statut  = 'congé refusé';
+                break;
+        }
+        $ok = $conge->update([
+            'statut' => $statut
+        ]);
+        if ($ok) {
+            return back()->with('success', ucfirst($statut) . ' ' . $conge->employee->nom);
+        } else {
+            return back()->with('error', 'Immposible de mettre a jour le congé');
+        }
     }
 
     /**

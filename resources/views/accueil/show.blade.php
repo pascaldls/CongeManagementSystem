@@ -7,14 +7,14 @@
 <h2> {{$employee->nom}} : {{$employee->statut == 0 ? 'Employee' : 'Admin' }} </h2>
 
 @if( ! is_null($conges)> 0)
-<h3> Mes conge <a href="/conge/{{$employee->id}}" class="btn btn-primary float-right">Demande de conge</a> </h3>
+<h3> Mes congés <a href="/conge/{{$employee->id}}" class="btn btn-primary float-right">Demande de congé </a> </h3>
 <table class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
-            <th> Debut </th>
+            <th> Début </th>
             <th> Fin </th>
             <th> Statut </th>
-            <th> commentaire </th>
+            <th> Commentaire </th>
         </tr>
     </thead>
     <tbody>
@@ -46,10 +46,14 @@
         @foreach ($employeesAttente as $conge)
         <tr>
             <td> {{$conge->employee->nom}}</td>
-            <td> {{$conge->debut}}</td>
-            <td> {{$conge->fin}}</td>
+            <td> {{$conge->debut->format('d/m/Y')}}</td>
+            <td> {{$conge->fin->format('d/m/Y')}}</td>
             <td> {{$conge->commentaire}}</td>
-            <td> <button> Approuver </button> <button> Refuser </button> </td>
+            <td>
+                <a href="/conge/approver/{{$conge->id}}" class="btn btn-success mb-1"> Approuver </a>
+                <br>
+                <a href="/conge/refuser/{{$conge->id}}" class="btn btn-danger"> Refuser </a>
+            </td>
         </tr>
         @endforeach
     </tbody>
@@ -57,7 +61,7 @@
 @endif
 
 @if( ! is_null($employees) && count( $employees ) > 0 )
-<h3> Employees </h3>
+<h3> Employées </h3>
 <table class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
@@ -67,11 +71,9 @@
     </thead>
     <tbody>
         @foreach ($employees as $em)
-        <tr>
-            <a href="">
-                <td> {{$em->nom}}</td>
-                <td> {{$em->statut == 0 ? 'Employee' : 'Admin' }} </td>
-            </a>
+        <tr onclick="window.location='/{{$em->id}}';">
+            <td> {{$em->nom}} </td>
+            <td> {{$em->statut == 0 ? 'Employee' : 'Admin' }} </td>
         </tr>
         @endforeach
     </tbody>

@@ -13,6 +13,51 @@ class DemandeCongeTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function testCongeApprover()
+    {
+        $employee = factory(Employee::class)->create();
+
+        $debut = '2019-12-05';
+        $fin = '2019-12-09';
+
+        $conge = Conge::firstOrCreate([
+            'debut'  => $debut,
+            'fin' => $fin,
+            'employee_id' => $employee->id,
+            'statut' => 'demande en attente',
+            'commentaire' => 'Je part en vacances xxx'
+        ]);
+        $response = $this->get('/conge/approver/' . $conge->id);
+
+        $response->assertStatus(302);
+
+        $conge->refresh();
+
+        $this->assertEquals($conge->statut, 'congé approuvé');
+    }
+
+    public function testCongeRefuser()
+    {
+        $employee = factory(Employee::class)->create();
+
+        $debut = '2019-12-05';
+        $fin = '2019-12-09';
+
+        $conge = Conge::firstOrCreate([
+            'debut'  => $debut,
+            'fin' => $fin,
+            'employee_id' => $employee->id,
+            'statut' => 'demande en attente',
+            'commentaire' => 'Je part en vacances xxx'
+        ]);
+
+        $response = $this->get('/conge/refuser/' . $conge->id);
+        $response->assertStatus(302);
+        $conge->refresh();
+
+        $this->assertEquals($conge->statut, 'congé refusé');
+    }
+
     public function testFormulaireDemandeDeConge()
     {
 
@@ -21,11 +66,14 @@ class DemandeCongeTest extends TestCase
         // $this->withoutExceptionHandling();
         $response = $this->get('/conge/' . $employee->id);
 
+        $content = $response->getOriginalContent()->getData();
+
+        $this->assertEquals($employee->toArray(), $content['employee']->toArray());
+
         $response->assertStatus(200);
     }
     public function testPostDemandeDeConge()
     {
-
         $this->withoutExceptionHandling();
 
         $employee = factory(Employee::class)->create();
@@ -47,7 +95,7 @@ class DemandeCongeTest extends TestCase
         $response->assertRedirect('/' . $employee->id);
 
         $response->assertSessionHasNoErrors();
-        $response->assertSessionHas('success', 'Conge a ete deposer');
+        $response->assertSessionHas('success', 'Votre congé a bien été déposé');
 
         $this->assertCount(1, Conge::all());
 
@@ -93,17 +141,6 @@ class DemandeCongeTest extends TestCase
         ]);
         $response->assertStatus(302);
         $response->assertSessionHasErrors();
-
-
-        $response = $this->post('/conge', [
-            'employee_id' => $employee->id,
-            'debut'  => $debut,
-            'fin' => $fin,
-            'commentaire' => 'Je part en vacances xxx'
-        ]);
-        $response->assertStatus(302);
-        $response->assertSessionHasErrors();
-
 
         $response = $this->post('/conge', [
             'employee_id' => $employee->id,
