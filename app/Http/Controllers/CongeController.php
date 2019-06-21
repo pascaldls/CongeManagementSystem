@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Conge;
 use Illuminate\Http\Request;
+use App\Employee;
 
 class CongeController extends Controller
 {
@@ -14,17 +15,30 @@ class CongeController extends Controller
      */
     public function index()
     {
-        //
     }
 
     /**
      * Show the form for creating a new resource.
      *
+     * @param  employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create( Employee $employee )
     {
-        //
+        return view('conge.create');
+    }
+
+    public function validateRequest()
+    {
+        return request()->validate(
+            [
+                'employee_id' => 'required',
+                'debut' => 'required',
+                'fin' => 'required',
+                'statut' => 'required',
+                'Commentaire' => 'required'
+            ]
+        );
     }
 
     /**
@@ -35,7 +49,12 @@ class CongeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $this->validateRequest() ;
+
+        Conge::create( $data ) ;
+
+        return redirect('/'.$data['employee_id'] )
+            ->with('success', 'Conge a ete deposer');
     }
 
     /**
