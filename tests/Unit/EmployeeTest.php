@@ -6,6 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Employee;
+use App\Conge;
 
 class EmployeeTest extends TestCase
 {
@@ -38,5 +39,50 @@ class EmployeeTest extends TestCase
         ]);
 
         $this->assertCount(1, Employee::all());
+    }
+
+    public function testEmployeAvecCongeEnAttante()
+    {
+        $employee = factory( Employee::class )->create( ) ;
+        $conges = factory( Conge::class , 1 )->create( [
+            'employee_id' =>  $employee->id,
+            'statut' => 'demande en attente'
+        ] ) ;
+        $employee = factory( Employee::class )->create( ) ;
+        $employee = factory( Employee::class )->create( ) ;
+        $employee = factory( Employee::class )->create( ) ;
+        $conges = factory( Conge::class , 3 )->create( [
+            'employee_id' =>  $employee->id,
+            'statut' => 'demande en attente'
+        ] ) ;
+
+        $employees = Employee::whereHas( 'conges', function ($query){
+            $query->where( 'statut', 'demande en attente') ;
+        })->get() ;
+
+        $this->assertCount(2, $employees );
+    }
+
+
+    public function testEmployeAvecCongeApprouve()
+    {
+        $employee = factory( Employee::class )->create( ) ;
+        $conges = factory( Conge::class , 1 )->create( [
+            'employee_id' =>  $employee->id,
+            'statut' => 'congé approuvé'
+        ] ) ;
+        $employee = factory( Employee::class )->create( ) ;
+        $employee = factory( Employee::class )->create( ) ;
+        $employee = factory( Employee::class )->create( ) ;
+        $conges = factory( Conge::class , 2 )->create( [
+            'employee_id' =>  $employee->id,
+            'statut' => 'congé approuvé'
+        ] ) ;
+
+        $employees = Employee::whereHas( 'conges', function ($query){
+            $query->where( 'statut', 'congé approuvé') ;
+        })->get() ;
+
+        $this->assertCount(2, $employees );
     }
 }

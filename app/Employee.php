@@ -8,4 +8,9 @@ class Employee extends Model
 {
     //
     protected $guarded = [];
+
+    public function Conges()
+    {
+        return $this->hasMany(Conge::class);
+    }
 }

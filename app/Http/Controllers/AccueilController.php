@@ -30,11 +30,17 @@ class AccueilController extends Controller
 
         $conges = Conge::where( 'employee_id', $employee->id )->get() ;
 
-        $employees = null ;
+        $employeesApprouve = null ;
+        $employeesAttente = null ;
         if ( $employee->statut == 1 ) {
-            $employees = Employee::all() ;
+            $employeesAttente = Employee::whereHas( 'conges', function ($query){
+                $query->where( 'statut', 'demande en attente') ;
+            })->get() ;
+            $employeesApprouve = Employee::whereHas( 'conges', function ($query){
+                $query->where( 'statut', 'congé approuvé') ;
+            })->get() ; ;
         }
 
-        return view('accueil.show')->with( compact( 'employee', 'employees', 'conges' ) );
+        return view('accueil.show')->with( compact( 'employee', 'conges', 'employeesApprouve', 'employeesAttente'  ) );
     }
 }
